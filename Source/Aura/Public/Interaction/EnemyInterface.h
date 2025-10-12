@@ -25,5 +25,5 @@ public:
 	// Pure virtual functions
 	virtual void HighlightActor() = 0;
 
-	virtual void UnhighlightActor() = 0;
+	virtual void UnHighlightActor() = 0;
 };

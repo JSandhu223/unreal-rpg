@@ -7,6 +7,6 @@ void AAuraEnemy::HighlightActor()
 {
 }
 
-void AAuraEnemy::UnhighlightActor()
+void AAuraEnemy::UnHighlightActor()
 {
 }

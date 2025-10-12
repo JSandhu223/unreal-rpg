@@ -6,12 +6,79 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "InputAction.h"
+#include "Interaction/EnemyInterface.h"
 
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	this->bReplicates = true;
 }
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit) return;
+
+	LastActor = ThisActor;
+	ThisActor = CursorHit.GetActor();
+
+	/**
+	* Line trace from cursor. There are several scenarios:
+	*  (a) LastActor is null && ThisActor is null
+	*    - Do nothing
+	* 
+	*  (b) LastActor is null, but ThisActor is valid (is an enemy interace)
+	*    - This means We're hovering over ThisActor for the first time
+	*    - Highlight ThisActor
+	* 
+	*  (c) LastActor is valid, but ThisActor is null
+	*    - This means we're no longer hovering over an enemy
+	*    - Unhighlight LastActor
+	* 
+	*  (d) LastActor AND ThisActor are valid, but LastActor != ThisActor
+	*    - Unhighlight LastActor and highlight ThisActor
+	* 
+	*  (e) LastActor AND ThisActor are valid, and LastActor = ThisActor
+	*    - Do nothing
+	**/
+
+	if (LastActor == nullptr)
+	{
+		// Case (b)
+		if (ThisActor != nullptr)
+		{
+			ThisActor->HighlightActor();
+		}
+	}
+
+	else
+	{
+		// Case (c)
+		if (ThisActor == nullptr)
+		{
+			LastActor->UnHighlightActor();
+		}
+
+		else
+		{
+			// Case (d)
+			if (LastActor != ThisActor)
+			{
+				LastActor->UnHighlightActor();
+				ThisActor->HighlightActor();
+			}
+		}
+	}
+}
+
 
 void AAuraPlayerController::BeginPlay()
 {
