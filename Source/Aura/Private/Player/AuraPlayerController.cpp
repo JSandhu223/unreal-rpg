@@ -30,6 +30,9 @@ void AAuraPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 
+	// DEBUG
+	//UE_LOG(LogTemp, Warning, TEXT("HitActor = %s"), *CursorHit.GetActor()->GetName());
+
 	/**
 	* Line trace from cursor. There are several scenarios:
 	*  (a) LastActor is null && ThisActor is null
