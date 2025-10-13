@@ -6,10 +6,11 @@
 
 void AAuraEnemy::HighlightActor()
 {
-	bHighlighted = true;
+	this->GetMesh()->SetRenderCustomDepth(true);
+	this->GetMesh()->SetCustomDepthStencilValue(this->StencilValue);
 }
 
 void AAuraEnemy::UnHighlightActor()
 {
-	bHighlighted = false;
+	this->GetMesh()->SetRenderCustomDepth(false);
 }

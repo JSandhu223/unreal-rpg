@@ -20,6 +20,7 @@ public:
 
 	virtual void UnHighlightActor() override;
 
-	UPROPERTY(BlueprintReadOnly)
-	bool bHighlighted = false;
+private:
+	// This needs to be 250 to render the post process highlight around the enemy (see the 'PP_Highlight' asset)
+	int32 StencilValue = 250;
 };
