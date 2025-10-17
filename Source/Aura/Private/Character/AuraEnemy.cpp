@@ -15,6 +15,7 @@ AAuraEnemy::AAuraEnemy()
 	// The ability system component will exist on all enemies
 	this->AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	this->AbilitySystemComponent->SetIsReplicated(true);
+	this->AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	// The ability system component will exist on all enemies
 	this->AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
