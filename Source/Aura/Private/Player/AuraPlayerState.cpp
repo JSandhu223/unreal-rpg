@@ -20,3 +20,13 @@ AAuraPlayerState::AAuraPlayerState()
 
 	this->AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
+
+UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
+{
+	return this->AbilitySystemComponent;
+}
+
+UAttributeSet* AAuraPlayerState::GetAttributeSet() const
+{
+	return this->AttributeSet;
+}
