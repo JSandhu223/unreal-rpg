@@ -2,6 +2,8 @@
 
 
 #include "Player/AuraPlayerState.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 
 AAuraPlayerState::AAuraPlayerState()
@@ -12,4 +14,9 @@ AAuraPlayerState::AAuraPlayerState()
 	// so they can sync up with the server version (e.g. any variables that need to be replicated).
 	// The server will try to meet the net update frequency value if it can.
 	this->NetUpdateFrequency = 100.0f;
+
+	this->AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	this->AbilitySystemComponent->SetIsReplicated(true);
+
+	this->AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
