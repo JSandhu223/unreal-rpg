@@ -20,9 +20,26 @@ character can perform (e.g. attacking, casting special moves, etc.)
 7. **Gameplay Tags** - although not exclusive to GAS, they are used extensively with
 GAS due to their versatile and hierarchical nature.
 
+### Replication
+
+Replication refers to the process of the server sending updates of actor data to clients
+periodically. The rate at which the server can send this info is set by
+`AActor::NetUpdateFrequency`, which determines the max number of tries per second information
+will be sent to the clients. There are three different replication modes which control how
+much info is replicated from the server to client.
+
+1. **Full** - gameplay effects are replicated to all clients
+2. **Mixed** - gameplay effects are replicated only to the *owning client*, while gameplay
+cues and gameplay tags are replicated to all clients
+3. **Minimal** - gameplay effects are not replicated, while gameplay cues and gameplay tags
+are replicated to all clients
+
+Notice that gameplay cues and gameplay tags are always replicated to all clients, regardless
+of which replication mode is selected.
+
 ### Ability Actor Info
 
-An Ability System Component (ASC) has two variables:
+An Ability System Component (ASC) has two important class variables:
 
 - **Owner Actor**: the class that owns the ability system component.
 - **Avatar Actor**: the representation in the world associated with the ability system component
