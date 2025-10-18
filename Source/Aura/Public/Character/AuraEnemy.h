@@ -18,9 +18,13 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 public:
 	AAuraEnemy();
 
+	//~ Begin Enemy Interface
 	virtual void HighlightActor() override;
-
 	virtual void UnHighlightActor() override;
+	//~ End Enemy Interface
+
+protected:
+	virtual void BeginPlay() override;
 
 private:
 	// This needs to be 250 to render the post process highlight around the enemy (see the 'PP_Highlight' asset)
