@@ -24,8 +24,8 @@ GAS due to their versatile and hierarchical nature.
 
 Replication refers to the process of the server sending updates of actor data to clients
 periodically. The rate at which the server can send this info is set by
-`AActor::NetUpdateFrequency`, which determines the max number of tries per second information
-will be sent to the clients. There are three different replication modes which control how
+`AActor::NetUpdateFrequency`, which determines the max number of times per second the server
+will try to send information. There are three different replication modes which control how
 much info is replicated from the server to client.
 
 1. **Full** - gameplay effects are replicated to all clients
