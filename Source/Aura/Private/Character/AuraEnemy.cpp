@@ -21,6 +21,13 @@ AAuraEnemy::AAuraEnemy()
 	this->AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	this->AbilitySystemComponent->InitAbilityActorInfo(this, this);
+}
+
 void AAuraEnemy::HighlightActor()
 {
 	this->GetMesh()->SetRenderCustomDepth(true);
