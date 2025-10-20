@@ -56,3 +56,12 @@ Ability actor info is set by calling:
 
 Note that initialization must be done after posession of the pawn 
 (i.e. after the controller has been set for the pawn).
+
+
+### Attributes
+
+An attribute is an object of type `FGameplayAttributeData` and is stored in an attribute set.
+Attributes are modified by gameplay effects. They consist of two values:
+
+1. **Base Value** - the permanent value of an attribute
+2. **Current Value** - the base value plus any temporary modifications caused by gameplay effects
