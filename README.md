@@ -65,3 +65,21 @@ Attributes are modified by gameplay effects. They consist of two values:
 
 1. **Base Value** - the permanent value of an attribute
 2. **Current Value** - the base value plus any temporary modifications caused by gameplay effects
+
+## Game UI
+
+Our game will be utilizing the **Model-View-Controller (MVC)** design pattern for the user
+interface.
+
+- **Model**: the code of our game
+- **View**: the UI that is visible to the player
+- **Controller**: retrieves data from the model and broadcasts it to the view
+
+Note that this design pattern consists of one way dependencies as follows:
+
+	View -> Controller -> Model
+
+So, the controller doesn't depend on the view, which means the view can easily be swapped
+out with another view without needing to modify anything in the controller. Likewise,
+the model doesn't depend on the controller, meaning the controller can be swapped out without
+needing to modify the model.
