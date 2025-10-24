@@ -3,8 +3,10 @@
 
 #include "Character/AuraCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "UI/HUD/AuraHUD.h"
 
 
 AAuraCharacter::AAuraCharacter()
@@ -46,4 +48,14 @@ void AAuraCharacter::InitAbilityActorInfo()
 	// Since we have the player state, we can set this character's inherited fields
 	this->AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	this->AttributeSet = AuraPlayerState->GetAttributeSet();
+
+	// Note: the player controller is only valid for the local player
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(this->GetController()))
+	{
+		// Note: the HUD is only valid for the local player
+		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+		{
+			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, this->AbilitySystemComponent, this->AttributeSet);
+		}
+	}
 }
