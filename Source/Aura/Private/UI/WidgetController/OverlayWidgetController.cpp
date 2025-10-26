@@ -2,10 +2,13 @@
 
 
 #include "UI/WidgetController/OverlayWidgetController.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
-	// TODO: broadcast the value of the health attribute instead of hardcoding a value
-	OnHealthChanged.Broadcast(100.0f);
+	UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(this->AttributeSet);
+
+	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
+	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 }
