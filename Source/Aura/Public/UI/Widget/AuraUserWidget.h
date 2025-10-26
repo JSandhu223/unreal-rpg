@@ -22,6 +22,7 @@ public:
 	TObjectPtr<UObject> WidgetController;
 
 protected:
+	// This event gets called in Blueprints after the widget controller is set by 'UAuraUserWidget::SetWidgetController'
 	UFUNCTION(BlueprintImplementableEvent)
 	void WidgetControllerSet();
 };
