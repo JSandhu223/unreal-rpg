@@ -65,3 +65,54 @@ Attributes are modified by gameplay effects. They consist of two values:
 
 1. **Base Value** - the permanent value of an attribute
 2. **Current Value** - the base value plus any temporary modifications caused by gameplay effects
+
+## Game UI
+
+### High-level Overview
+
+Our game will be utilizing the **Model-View-Controller (MVC)** design pattern for the user
+interface.
+
+- **View**: the UI that is visible to the player
+- **Controller**: retrieves data from the model and broadcasts it to the view
+- **Model**: the code of our game
+
+Note that this design pattern consists of one way dependencies as follows:
+
+	View -> Controller -> Model
+
+So, the controller doesn't depend on the view, which means the view can easily be swapped
+out with another view without needing to modify anything in the controller. Likewise,
+the model doesn't depend on the controller, meaning the controller can be swapped out without
+needing to modify the model.
+
+
+### Delegates
+
+Our widgets access attributes such as health and mana through a controller class (not
+to be confused with the Unreal Player Controller class). This is achieved through
+**delegates** created on the controller class.
+
+The base c++ class for which all our widget blueprints are based on is `UAuraUserWidget`.
+Any widgets that derive from this class will bind/subscribe to the delegates created
+in the controller class. For example, `WBP_HealthGlobe` binds to the `OnHealthChanged` and
+`OnMaxHealthChanged` delegates to update the health percentage bar.
+
+We have a c++ class called `UAuraWidgetController` which will act as the base class
+for all controllers. This base class has four important fields for accessing the *model*.
+
+- Player Controller
+- Player State
+- AbilitySystemComponent
+- AttributeSet
+
+These are initialized from the player character class `AAuraCharacter`.
+
+The controller that is responsible for retrieving attributes from our *model*
+will be the `UOverlayWidgetController` class. It does so by accessing the `AttributeSet`
+from our `PlayerState` class.
+
+The `AAuraHUD` is a HUD class that we will use to centralize HUD-related activity. This class
+contains fields for a `UOverlayWidgetController` and `UAuraUserWidget`. It is reponsible
+for creating the one-way controller dependency and initializing the game overlay
+(e.g. initializing the health and mana bars to their default attribute values).
