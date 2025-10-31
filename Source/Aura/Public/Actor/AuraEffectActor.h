@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ActiveGameplayEffectHandle.h"
 #include "AuraEffectActor.generated.h"
 
 
 class UGameplayEffect;
+class UAbilitySystemComponent;
+
 
 UENUM(BlueprintType)
 enum class EEffectApplicationPolicy : uint8
@@ -50,6 +53,7 @@ protected:
 	void OnEndOverlap(AActor* TargetActor);
 
 
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects | Effect Classes")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
@@ -74,4 +78,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects | Policies")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+
+
+
+	// Map the active gameplay effect to an ability system component (ASC). Each player/enemy instance will have their own ASC.
+	TMap<UAbilitySystemComponent*, FActiveGameplayEffectHandle> ActiveEffectHandles;
 };
