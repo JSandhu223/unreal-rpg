@@ -83,4 +83,8 @@ protected:
 
 	// Map the active gameplay effect to an ability system component (ASC). Each player/enemy instance will have their own ASC.
 	TMap<UAbilitySystemComponent*, FActiveGameplayEffectHandle> ActiveEffectHandles;
+
+	// Determines the level of the gameplay effect
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+	float ActorLevel = 1.0f;
 };
