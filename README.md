@@ -116,3 +116,78 @@ The `AAuraHUD` is a HUD class that we will use to centralize HUD-related activit
 contains fields for a `UOverlayWidgetController` and `UAuraUserWidget`. It is reponsible
 for creating the one-way controller dependency and initializing the game overlay
 (e.g. initializing the health and mana bars to their default attribute values).
+
+## Gameplay Effects
+
+### What are they?
+
+Gameplay effects have a few important properties:
+
+- An object of type `UGameplayEffect`.
+- Change attributes and gameplay tags.
+- Data only, so they contain no game logic.
+
+A common practice is to create a blueprint based on a `UGameplayEffect` class, but we don't
+subclass a `UGameplayEffect` directly. This is because the gameplay effect class has versatility
+to not need subclasses.
+
+### Modifiers
+
+Gameplay effects change attributes through *modifiers* and *executions*. Modifiers specify a
+type of *operation* to be performed on an attribute. A *magnitude* is used to
+change an attribute based on the modifier operation. The different types of modifier operations
+are:
+
+- **Add**: adds the given magnitude to the attribute's value.
+- **Multiply**: multiplies the attribute's value by the given magnitude.
+- **Divide**: divides the attribute's value by the given magnitude.
+- **Override**: replaces the attribute's value by the given magnitude.
+
+The magnitude used in these operations is produced from the *magnitude calculation*. Gameplay
+effects support several calculation types:
+
+- **Scalable Float**: a float that can be hardcoded or used with a table which scales the value
+based on the gameplay effect's *level*.
+- **Attribute Based**: uses another attribute's value.
+- **Set by Caller**: a key-value pair which associates a magnitude with a name or gameplay tag.
+- **Custom Calculation Class (MMC)**: a class we can create that is designed to capture other
+attributes or variables and use them in some calculation.
+
+Note that a *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
+based on a custom calculation.
+
+### Executions
+
+Executions are a more powerful way of changing an attribute. These are also referred to as
+*gameplay effect execution calculations* or *exec calc*. They can change more than one attribute
+at a time.
+
+### Duration Policy
+
+Gameplay effects have a duration policy, which determines how long it can stay active.
+There are three main options:
+
+- **Instant**: modifier is applied instantly in a one-off action.
+- **Duration**: modify an attribute for a set period of time.
+- **Infinite**: modify an attribute indefinitely until instructed otherwise.
+
+### Other features
+
+Gameplay effects are also capable of:
+
+- Stacking
+- Adding gameplay tags
+- Granting abilities
+
+### Gameplay Effect Specs
+
+Gameplay effects can usually be applied directly, but a more lightweight approach is to utilize
+a *gameplay effect spec*. The spec contains the bare-bones information needed to perform the
+modifications. These can be very useful for optimization, as the only instance of the
+gameplay effect class itself is the **class default object (CDO)**. The spec can carry
+information such as:
+
+- Gameplay tags associated with the effect.
+- Effect context, which is a class that can store additional information about the
+effect that is being applied.
+- References to the causer and target of the effect.
