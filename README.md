@@ -191,3 +191,57 @@ information such as:
 - Effect context, which is a class that can store additional information about the
 effect that is being applied.
 - References to the causer and target of the effect.
+
+## Gameplay Tags
+
+### List of Gameplay Tags
+
+Our game has two kinds of attributes, which we categorize under our gameplay tags list:
+
+**Primary**
+- Intelligence
+- Resilience
+- Strength
+- Vigor
+
+**Vital**
+- Health
+- Mana
+- MaxHealth
+- MaxMana
+
+### Broadcasting gameplay tags
+
+The `AbilitySystemComponent` class contains lots of useful delegates, one of which is named
+`OnGameplayEffectAppliedDelegateToSelf`. From `OnGameplayEffectAppliedDelegateToSelf`, we bind
+this delegate to a custom callback function, which is then responsible for broadcasting our
+gameplay tags to `OverlayWidgetController`. Our gameplay tags are broadcast via an
+`FGameplayTagContainer`. This is consistent with the MVC design pattern.
+
+From `OverlayWidgetController`, the tags are received one by one and mapped to their
+corresponding row in the data table `DT_MessageWidgetData`, and finally broadcast to `WBP_Overlay`
+(the *view* in our MVC model). The rows of our data table are of type `FUIWidgetRow`.
+
+```c++
+USTRUCT(BlueprintType)
+struct FUIWidgetRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag MessageTag = FGameplayTag();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FText Message = FText();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UAuraUserWidget> MessageWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UTexture2D* Image = nullptr;
+};
+```
+
+So the flow of gameplay tags from the model to the view is as follows (read from right to left):
+
+`WBP_Overlay` <- `OverlayWidgetController` <- `AuraAbilitySystemComponent`
