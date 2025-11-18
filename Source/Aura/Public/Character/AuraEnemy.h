@@ -26,6 +26,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void InitAbilityActorInfo() override;
+
 private:
 	// This needs to be 250 to render the post process highlight around the enemy (see the 'PP_Highlight' asset)
 	int32 StencilValue = 250;

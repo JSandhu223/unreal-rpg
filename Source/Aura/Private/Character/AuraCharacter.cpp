@@ -45,6 +45,8 @@ void AAuraCharacter::InitAbilityActorInfo()
 	// The player state is the owner, but the character is the avatar
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
 
+	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
+
 	// Since we have the player state, we can set this character's inherited fields
 	this->AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	this->AttributeSet = AuraPlayerState->GetAttributeSet();
