@@ -210,6 +210,14 @@ Our game has two kinds of attributes, which we categorize under our gameplay tag
 - MaxHealth
 - MaxMana
 
+### Tags for Gameplay Effects
+
+There are two main types of gameplay tags for gameplay effects:
+
+- **Asset Tags**: tags that are inherent to the gameplay effect
+- **Granted Tags**: tags that are transferred over to the ASC of the target which the
+gameplay effect was applied to
+
 ### Broadcasting gameplay tags
 
 The `AbilitySystemComponent` class contains lots of useful delegates, one of which is named
