@@ -16,7 +16,7 @@ character can perform (e.g. attacking, casting special moves, etc.)
 *Gameplay Abilities*.
 5. **Gameplay Effect** - these are capable of a handful of things related to modifying
 *attributes*.
-6. **Gameplay Queues** - handle cosmetic effects such as particle systems and sounds.
+6. **Gameplay Cues** - handle cosmetic effects such as particle systems and sounds.
 7. **Gameplay Tags** - although not exclusive to GAS, they are used extensively with
 GAS due to their versatile and hierarchical nature.
 
@@ -101,8 +101,8 @@ in the controller class. For example, `WBP_HealthGlobe` binds to the `OnHealthCh
 We have a c++ class called `UAuraWidgetController` which will act as the base class
 for all controllers. This base class has four important fields for accessing the *model*.
 
-- Player Controller
-- Player State
+- PlayerController
+- PlayerState
 - AbilitySystemComponent
 - AttributeSet
 
