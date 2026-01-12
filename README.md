@@ -91,7 +91,12 @@ This game splits attributes into three categories:
 - Health
 - Mana
 
-These attributes will be initialized via GameplayEffects classes.
+Note that our secondary attributes will be dependent on primary attributes, as well as
+other secondary attributes. For this reason, these secondary attributes are also
+referred to as *derived attributes*.
+
+Attributes can be initialized in many ways. For our design, these attributes will be
+initialized via GameplayEffects classes.
 
 ## Game UI
 
