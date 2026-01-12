@@ -150,8 +150,9 @@ effects support several calculation types:
 based on the gameplay effect's *level*.
 - **Attribute Based**: uses another attribute's value.
 - **Set by Caller**: a key-value pair which associates a magnitude with a name or gameplay tag.
-- **Custom Calculation Class (MMC)**: a class we can create that is designed to capture other
-attributes or variables and use them in some calculation.
+- **Custom Calculation Class (MMC)**: an MMC (Modifier Magnitude Calculation) class is derived
+from UGameplayModMagnitudeCalculation and is designed to capture other attributes or variables,
+allowing us to use them in some complex calculation.
 
 Note that a *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
 based on a custom calculation.
