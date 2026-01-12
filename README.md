@@ -66,6 +66,33 @@ Attributes are modified by gameplay effects. They consist of two values:
 1. **Base Value** - the permanent value of an attribute
 2. **Current Value** - the base value plus any temporary modifications caused by gameplay effects
 
+This game splits attributes into three categories:
+
+**Primary Attributes**
+- Strength
+- Intelligence
+- Resilience
+- Vigor
+
+**Secondary Attributes**
+- Armor
+- ArmorPenetration
+- BlockChance
+- BlockChance
+- CriticalHitChance
+- CriticalHitDamage
+- CriticalHitResistance
+- HealthRegeneration
+- ManaRegeneration 
+- MaxHealth
+- MaxMana
+
+**Vital Attributes**
+- Health
+- Mana
+
+These attributes will be initialized via GameplayEffects classes.
+
 ## Game UI
 
 ### High-level Overview
@@ -197,19 +224,8 @@ effect that is being applied.
 
 ### List of Gameplay Tags
 
-Our game has two kinds of attributes, which we categorize under our gameplay tags list:
-
-**Primary**
-- Intelligence
-- Resilience
-- Strength
-- Vigor
-
-**Vital**
-- Health
-- Mana
-- MaxHealth
-- MaxMana
+Our game has three categories of attributes, and we also categorize in the engine's
+gameplay tags list.
 
 ### Tags for Gameplay Effects
 
