@@ -2,6 +2,7 @@
 
 
 #include "Player/AuraPlayerState.h"
+#include "Net/UnrealNetwork.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
@@ -22,6 +23,13 @@ AAuraPlayerState::AAuraPlayerState()
 	this->AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
+void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AAuraPlayerState, Level);
+}
+
 UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
 {
 	return this->AbilitySystemComponent;
@@ -30,4 +38,8 @@ UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
 UAttributeSet* AAuraPlayerState::GetAttributeSet() const
 {
 	return this->AttributeSet;
+}
+
+void AAuraPlayerState::OnRep_Level(int32 OldLevel)
+{
 }

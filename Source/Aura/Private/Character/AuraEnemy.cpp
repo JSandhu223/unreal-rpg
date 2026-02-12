@@ -1,6 +1,3 @@
-
-
-
 #include "Character/AuraEnemy.h"
 #include "Aura/Aura.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
@@ -46,4 +43,9 @@ void AAuraEnemy::UnHighlightActor()
 {
 	this->GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
+}
+
+int32 AAuraEnemy::GetPlayerLevel()
+{
+	return this->Level;
 }

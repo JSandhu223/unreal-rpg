@@ -16,7 +16,7 @@ character can perform (e.g. attacking, casting special moves, etc.)
 *Gameplay Abilities*.
 5. **Gameplay Effect** - these are capable of a handful of things related to modifying
 *attributes*.
-6. **Gameplay Queues** - handle cosmetic effects such as particle systems and sounds.
+6. **Gameplay Cues** - handle cosmetic effects such as particle systems and sounds.
 7. **Gameplay Tags** - although not exclusive to GAS, they are used extensively with
 GAS due to their versatile and hierarchical nature.
 
@@ -66,6 +66,38 @@ Attributes are modified by gameplay effects. They consist of two values:
 1. **Base Value** - the permanent value of an attribute
 2. **Current Value** - the base value plus any temporary modifications caused by gameplay effects
 
+This game splits attributes into three categories:
+
+**Primary Attributes**
+- Strength
+- Intelligence
+- Resilience
+- Vigor
+
+**Secondary Attributes**
+- Armor
+- ArmorPenetration
+- BlockChance
+- BlockChance
+- CriticalHitChance
+- CriticalHitDamage
+- CriticalHitResistance
+- HealthRegeneration
+- ManaRegeneration 
+- MaxHealth
+- MaxMana
+
+**Vital Attributes**
+- Health
+- Mana
+
+Note that our secondary attributes will be dependent on primary attributes, as well as
+other secondary attributes. For this reason, these secondary attributes are also
+referred to as *derived attributes*.
+
+Attributes can be initialized in many ways. For our design, these attributes will be
+initialized via GameplayEffects classes.
+
 ## Game UI
 
 ### High-level Overview
@@ -101,8 +133,8 @@ in the controller class. For example, `WBP_HealthGlobe` binds to the `OnHealthCh
 We have a c++ class called `UAuraWidgetController` which will act as the base class
 for all controllers. This base class has four important fields for accessing the *model*.
 
-- Player Controller
-- Player State
+- PlayerController
+- PlayerState
 - AbilitySystemComponent
 - AttributeSet
 
@@ -150,8 +182,9 @@ effects support several calculation types:
 based on the gameplay effect's *level*.
 - **Attribute Based**: uses another attribute's value.
 - **Set by Caller**: a key-value pair which associates a magnitude with a name or gameplay tag.
-- **Custom Calculation Class (MMC)**: a class we can create that is designed to capture other
-attributes or variables and use them in some calculation.
+- **Custom Calculation Class (MMC)**: an MMC (Modifier Magnitude Calculation) class is derived
+from UGameplayModMagnitudeCalculation and is designed to capture other attributes or variables,
+allowing us to use them in some complex calculation.
 
 Note that a *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
 based on a custom calculation.
@@ -196,19 +229,8 @@ effect that is being applied.
 
 ### List of Gameplay Tags
 
-Our game has two kinds of attributes, which we categorize under our gameplay tags list:
-
-**Primary**
-- Intelligence
-- Resilience
-- Strength
-- Vigor
-
-**Vital**
-- Health
-- Mana
-- MaxHealth
-- MaxMana
+Our game has three categories of attributes, and we also categorize in the engine's
+gameplay tags list.
 
 ### Tags for Gameplay Effects
 
