@@ -69,34 +69,38 @@ Attributes are modified by gameplay effects. They consist of two values:
 This game splits attributes into three categories:
 
 **Primary Attributes**
-- Strength
-- Intelligence
-- Resilience
-- Vigor
+- **Strength** - increases physical damage
+- **Intelligence** - increases magical damage
+- **Resilience** - increases armor and armor penetration
+- **Vigor** - increases health
 
-**Secondary Attributes**
-- Armor
-- ArmorPenetration
-- BlockChance
-- BlockChance
-- CriticalHitChance
-- CriticalHitDamage
-- CriticalHitResistance
-- HealthRegeneration
-- ManaRegeneration 
-- MaxHealth
-- MaxMana
+**Secondary Attributes** (backing attributes are in parentheses)
+- **Armor** (Resilience) - reduces damage taken, improves block chance
+- **ArmorPenetration** (Resilience) - ignores percentage of the target's armor, increases critical hit chance
+- **BlockChance** (Armor) - chance to cut incoming damage by half
+- **CriticalHitChance** (Armor Penetration) - chance to double damage plus critical hit bonus
+- **CriticalHitDamage** (Armor Penetration) - bonus damage added when a critical hit occurs
+- **CriticalHitResistance** (Armor) - reduces critical hit chance of attacking enemies
+- **HealthRegeneration** (Vigor) - amount of health regenerated per second
+- **ManaRegeneration** (Intelligence) - amount of mana regenerated per second
+- **MaxHealth** (Vigor) - maximum amount of health obtainable
+- **MaxMana** (Intelligence) - maximum amount of mana obtainable
 
 **Vital Attributes**
-- Health
-- Mana
+- **Health**
+- **Mana**
 
 Note that our secondary attributes will be dependent on primary attributes, as well as
-other secondary attributes. For this reason, these secondary attributes are also
-referred to as *derived attributes*.
+other secondary attributes. For this reason, the secondary attributes are *derived attributes*.
 
 Attributes can be initialized in many ways. For our design, these attributes will be
-initialized via GameplayEffects classes.
+initialized via GameplayEffects blueprint classes. These will be fields of type `TSubclassOf<UGameplayEffect>` declared on `AuraCharacterBase` and set from `BP_AuraCharacter`.
+
+- *GE_AuraPrimaryAttributes*
+- *GE_AuraSecondaryAttributes*
+- *GE_AuraVitalAttributes*
+
+The secondary attributes will have an infinite duration policy as we want them to be updated as soon as their backing attribute changes.
 
 ## Game UI
 
@@ -186,7 +190,26 @@ based on the gameplay effect's *level*.
 from UGameplayModMagnitudeCalculation and is designed to capture other attributes or variables,
 allowing us to use them in some complex calculation.
 
-Note that a *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
+#### Attribute Based
+
+An attribute can have many attribute-based modifiers. For example, suppose our health
+attribute had two modifiers based on the strength and resilience attributes. Then
+the order of operations is simply the order the modifiers are listed in the gameplay effect.
+
+An attribute-based modifiers consists of three important fields:
+- **Coefficient**
+- **Pre-multiply additive value**
+- **Post-multiply additive value**
+
+The order of operations for a single attribute-based modifier is as follows:
+
+```
+(C * (Backing attribute + Pre)) + Post
+```
+
+#### MMC
+
+A *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
 based on a custom calculation.
 
 ### Executions
