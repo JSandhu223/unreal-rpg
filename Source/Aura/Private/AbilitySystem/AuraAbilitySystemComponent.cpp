@@ -1,12 +1,10 @@
-
-
-
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
-
+// Gets called when when ability actor info is set on AuraCharacter and AuraEnemy
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
 	// Bind this delegate from the 'AbilitySystemComponent' parent class to our callback
+	// This delegate triggers when a gameplay effect is applied
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::EffectApplied);
 }
 

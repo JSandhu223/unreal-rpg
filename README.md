@@ -243,14 +243,17 @@ gameplay effect was applied to
 ### Broadcasting gameplay tags
 
 The `AbilitySystemComponent` class contains lots of useful delegates, one of which is named
-`OnGameplayEffectAppliedDelegateToSelf`. From `OnGameplayEffectAppliedDelegateToSelf`, we bind
-this delegate to a custom callback function, which is then responsible for broadcasting our
-gameplay tags to `OverlayWidgetController`. Our gameplay tags are broadcast via an
-`FGameplayTagContainer`. This is consistent with the MVC design pattern.
+`OnGameplayEffectAppliedDelegateToSelf`. The `OnGameplayEffectAppliedDelegateToSelf`
+delegate is called on the server when an effect is applied to the owning actor. We bind
+this delegate to a custom callback function `EffectApplied`, which is then responsible for 
+broadcasting our gameplay tags to `OverlayWidgetController`. These gameplay tags are broadcast
+as an `FGameplayTagContainer`.
 
-From `OverlayWidgetController`, the tags are received one by one and mapped to their
-corresponding row in the data table `DT_MessageWidgetData`, and finally broadcast to `WBP_Overlay`
-(the *view* in our MVC model). The rows of our data table are of type `FUIWidgetRow`.
+In `OverlayWidgetController`, the tags are received one by one and mapped to their
+corresponding row in the data table `DT_MessageWidgetData`. The rows of our data table
+are of type `FUIWidgetRow`. Then through our delegate
+`MessageWidgetRowDelegate`, they are sent one by one to `WBP_Overlay` (the *view*) as an
+`FUIWidgetRow`.
 
 ```c++
 USTRUCT(BlueprintType)

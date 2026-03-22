@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -8,7 +6,7 @@
 
 
 // The Widget Controller will bind to this delegate
-DECLARE_MULTICAST_DELEGATE_OneParam(FAffectAssetTags, const FGameplayTagContainer&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FAffectAssetTags, const FGameplayTagContainer& /*AssetTags*/);
 
 
 /**

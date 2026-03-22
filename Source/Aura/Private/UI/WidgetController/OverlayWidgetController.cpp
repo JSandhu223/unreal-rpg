@@ -1,6 +1,3 @@
-
-
-
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
@@ -49,7 +46,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		}
 	);
 
-	// Bind to the delegate on AuraAbilitySystemComponent to receive gameplay tags (asset tags)
+	// Bind to the delegate ''EffectAssetTags' in AuraAbilitySystemComponent to receive gameplay tags (asset tags)
 	Cast<UAuraAbilitySystemComponent>(this->AbilitySystemComponent)->EffectAssetTags.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags)
 		{
