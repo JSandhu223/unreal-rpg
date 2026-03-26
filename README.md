@@ -16,8 +16,8 @@ character can perform (e.g. attacking, casting special moves, etc.)
 *Gameplay Abilities*.
 5. **Gameplay Effect** - these are capable of a handful of things related to modifying
 *attributes*.
-6. **Gameplay Cues** - handle cosmetic effects such as particle systems and sounds.
-7. **Gameplay Tags** - although not exclusive to GAS, they are used extensively with
+6. **Gameplay Cue** - handle cosmetic effects such as particle systems and sounds.
+7. **Gameplay Tag** - although not exclusive to GAS, they are used extensively with
 GAS due to their versatile and hierarchical nature.
 
 ### Replication
@@ -209,8 +209,45 @@ The order of operations for a single attribute-based modifier is as follows:
 
 #### MMC
 
-A *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
+What if we wanted an attribute to be not only attribute-based, but also dependent on some other variable such as the the player's level? A *Modifier Magnitude Calculation* (MMC) is a powerful way to change a single attribute
 based on a custom calculation.
+
+- The MMC class is derived from `UGameplayModMagnitudeCalculation`
+- The calculation is defined in the `CalculateBaseMagnitude_Implementation` function, which is a pure virtual function that must be implemented in the derived class.
+- To capture another attribute, we define a variable of type `FGameplayEffectAttributeCaptureDefinition`. Then in the constructor, we set that variable's `AttributeToCapture`, `AttributeSource`, and `Snapshot` properties. Finally, we add that variable to the `RelevantAttributesToCapture` array.
+
+For example, if we wanted a custom calculation class for the max health attribute and utilize the vigor attribute and level (the class field on `AuraPlayerState` and `AuraEnemy`), it would like something like this:
+
+```c++
+UMMC_MaxHealth::UMMC_MaxHealth()
+{
+	VigorDef.AttributeToCapture = UAuraAttributeSet::GetVigorAttribute();
+	VigorDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
+	VigorDef.bSnapshot = false;
+
+	RelevantAttributesToCapture.Add(VigorDef);
+}
+
+float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const
+{
+	// Gather tags from source and target
+	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
+	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
+	
+	FAggregatorEvaluateParameters EvaluationParameters;
+	EvaluationParameters.SourceTags = SourceTags;
+	EvaluationParameters.TargetTags = TargetTags;
+
+	float Vigor = 0;
+	GetCapturedAttributeMagnitude(VigorDef, Spec, EvaluationParameters, Vigor);
+	Vigor = FMath::Max<float>(Vigor, 0.0f);
+
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());
+	const int32 PlayerLevel = CombatInterface->GetPlayerLevel();
+
+	return 80.0f + (2.5f * Vigor) + (10.0f * PlayerLevel);
+}
+```
 
 ### Executions
 
